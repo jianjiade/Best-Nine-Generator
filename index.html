@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2025 Best Nine Generator</title>
+    <!-- Fonts: Inter (English/Numbers) + Noto Sans SC (Chinese) -->
+    <!-- Inter is chosen for its clean, neutral aesthetic suitable for modern layouts ("default" feel but better) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet" crossorigin="anonymous" />
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'jike-yellow': '#FFD600',
+              'jike-dark': '#1A1A1A',
+            },
+            fontFamily: {
+              // Priority: Inter for English/Num, Noto Sans SC for Chinese, then system defaults
+              sans: ['Inter', '"Noto Sans SC"', 'system-ui', '-apple-system', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Custom utility for the dotted background effect */
+      .bg-dot-pattern {
+        background-color: #feffef;
+        background-image: radial-gradient(#962319 2px, transparent 2px);
+        background-size: 20px 20px;
+      }
+      
+      /* Ensure fonts are applied globally */
+      body {
+        font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "html-to-image": "https://esm.sh/html-to-image@^1.11.13",
+    "tslib": "https://esm.sh/tslib@^2.6.2",
+    "react-easy-crop": "https://esm.sh/react-easy-crop@^5.0.4"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
