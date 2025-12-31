@@ -8,9 +8,11 @@ interface ControlPanelProps {
   setData: React.Dispatch<React.SetStateAction<PosterData>>;
   onDownload: () => void;
   isGenerating: boolean;
+  uploadedCount: number;
 }
 
-const ControlPanel: React.FC<ControlPanelProps> = ({ data, setData, onDownload, isGenerating }) => {
+const ControlPanel: React.FC<ControlPanelProps> = ({ data, setData, onDownload, isGenerating, uploadedCount }) => {
+  const isComplete = uploadedCount === 9;
   // State for cropping
   const [cropperState, setCropperState] = useState<{
     isOpen: boolean;
@@ -187,10 +189,21 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ data, setData, onDownload, 
             />
         </div>
 
+        {/* Upload Progress Hint */}
+        {!isComplete && (
+            <div className="mb-3 text-center text-sm text-amber-600 bg-amber-50 py-2 px-3 rounded-lg border border-amber-200">
+                请上传 9 张图片（已上传 {uploadedCount}/9）
+            </div>
+        )}
+
         <button
             onClick={onDownload}
-            disabled={isGenerating}
-            className="w-full bg-black text-white py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 shadow-lg active:scale-95 transform duration-100 touch-manipulation"
+            disabled={isGenerating || !isComplete}
+            className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 shadow-lg transform duration-100 touch-manipulation ${
+                isComplete 
+                    ? 'bg-black text-white hover:bg-gray-800 active:scale-95' 
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
         >
             {isGenerating ? (
                 <>

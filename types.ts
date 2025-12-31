@@ -10,7 +10,7 @@ export interface PosterData {
 export const DEFAULT_DATA: PosterData = {
   gridImages: Array(9).fill(null),
   avatar: null, // Will use placeholder if null
-  qrCode: "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://best-nine-generator.vercel.app/",
+  qrCode: null, // Will use placeholder if null (external URLs cause CORS issues)
   username: "",
   year: "2025",
   footerText: "© 2025 ISLINKS ALL RIGHTS RESERVED"

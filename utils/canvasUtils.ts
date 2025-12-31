@@ -1,4 +1,9 @@
 /**
+ * Maximum output size for cropped images (to prevent memory issues)
+ */
+const MAX_OUTPUT_SIZE = 800;
+
+/**
  * Creates an image object from a source URL
  */
 export const createImage = (url: string): Promise<HTMLImageElement> =>
@@ -6,12 +11,15 @@ export const createImage = (url: string): Promise<HTMLImageElement> =>
     const image = new Image()
     image.addEventListener('load', () => resolve(image))
     image.addEventListener('error', (error) => reject(error))
-    image.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
+    // Only set crossOrigin for external URLs, not for base64 data URLs
+    if (!url.startsWith('data:')) {
+      image.setAttribute('crossOrigin', 'anonymous')
+    }
     image.src = url
   })
 
 /**
- * Returns the new data URL of a cropped image
+ * Returns the new data URL of a cropped image (with size limiting)
  */
 export async function getCroppedImg(
   imageSrc: string,
@@ -25,11 +33,21 @@ export async function getCroppedImg(
     throw new Error('No 2d context')
   }
 
-  // set canvas size to match the bounding box
-  canvas.width = pixelCrop.width
-  canvas.height = pixelCrop.height
+  // Calculate output size (limit to MAX_OUTPUT_SIZE to prevent memory issues)
+  let outputWidth = pixelCrop.width
+  let outputHeight = pixelCrop.height
+  
+  if (outputWidth > MAX_OUTPUT_SIZE || outputHeight > MAX_OUTPUT_SIZE) {
+    const scale = MAX_OUTPUT_SIZE / Math.max(outputWidth, outputHeight)
+    outputWidth = Math.round(outputWidth * scale)
+    outputHeight = Math.round(outputHeight * scale)
+  }
 
-  // draw the image
+  // set canvas size to the limited output size
+  canvas.width = outputWidth
+  canvas.height = outputHeight
+
+  // draw the image with scaling
   ctx.drawImage(
     image,
     pixelCrop.x,
@@ -38,10 +56,10 @@ export async function getCroppedImg(
     pixelCrop.height,
     0,
     0,
-    pixelCrop.width,
-    pixelCrop.height
+    outputWidth,
+    outputHeight
   )
 
-  // As Base64 string
-  return canvas.toDataURL('image/jpeg', 0.95)
+  // As Base64 string with compression
+  return canvas.toDataURL('image/jpeg', 0.85)
 }

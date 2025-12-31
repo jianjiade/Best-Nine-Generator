@@ -9,6 +9,9 @@ const App: React.FC = () => {
   const posterRef = useRef<HTMLDivElement>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // Count uploaded images
+  const uploadedCount = data.gridImages.filter(img => img !== null).length;
+
   const downloadImage = useCallback(async () => {
     if (posterRef.current === null) {
       return;
@@ -45,7 +48,7 @@ const App: React.FC = () => {
       link.href = dataUrl;
       link.click();
     } catch (err) {
-      console.error('Failed to generate image', err);
+      console.error('Failed to generate image', JSON.stringify(err));
       alert('Failed to generate image. Please try again.');
     } finally {
       setIsGenerating(false);
@@ -62,6 +65,7 @@ const App: React.FC = () => {
             setData={setData} 
             onDownload={downloadImage}
             isGenerating={isGenerating}
+            uploadedCount={uploadedCount}
          />
       </div>
 
